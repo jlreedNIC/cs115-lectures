@@ -1,4 +1,4 @@
-entrypoint = "HW6_Reed_Intro/testing.py"
+entrypoint = "snake_1/main.py"
 modules = ["python-3.11"]
 
 [nix]
@@ -11,5 +11,5 @@ language = "python3"
 requiredFiles = [".replit", "replit.nix"]
 
 [deployment]
-run = ["python3", "HW6_Reed_Intro/testing.py"]
+run = ["python3", "snake_1/main.py"]
 deploymentTarget = "cloudrun"
