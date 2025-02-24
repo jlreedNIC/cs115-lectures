@@ -20,23 +20,23 @@ speed = 10
 """game loop"""
 running = True
 while running:
-  """Handle events"""
-  for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-      running = False
+    """Handle events"""
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
-  """update our game state"""
+    """update our game state"""
 
-  """ draw to our screen """
-  # clear screen
-  screen.fill("white")
+    """ draw to our screen """
+    # clear screen
+    screen.fill("white")
 
-  # update screen
-  pygame.display.flip()
+    # update screen
+    pygame.display.flip()
 
 
-  # fps
-  dt = clock.tick(speed)/1000
+    # fps
+    dt = clock.tick(speed)/1000
 
 # quit pygame
 pygame.quit()
