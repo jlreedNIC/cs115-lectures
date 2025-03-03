@@ -6,5 +6,10 @@
 a = 10
 b = 0
 
-result = a / b
-print(result)
+if b ==0:
+    print("divide by zero error")
+    exit()
+
+if b != 0:
+    result = a / b
+    print(result)

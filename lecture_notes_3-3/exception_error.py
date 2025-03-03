@@ -5,4 +5,6 @@ example of python catching exception (error)
 
 fruits = ['orange', 'apple', 'banana', 'tomato']
 
-print(fruits[6])
+index = 4
+if index < len(fruits):
+    print(fruits[index])

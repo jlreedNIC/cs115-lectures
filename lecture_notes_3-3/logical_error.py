@@ -8,8 +8,10 @@ a = 10
 b = 5
 
 if a < b:
-    result = a - b
-else:
+    print("a is less than b")
     result = b - a
+else:
+    print("b is less than a")
+    result = a - b
 
 print(result)
