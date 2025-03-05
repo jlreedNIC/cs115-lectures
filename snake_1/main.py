@@ -3,9 +3,21 @@
 # -----
 import pygame
 from pygame.constants import KEYDOWN
+import helper_functions
 
+
+# ---
+# main game
+# ----
 # init pygame
 pygame.init()
+
+# create font
+system_fonts = pygame.font.get_fonts()
+print(system_fonts)
+
+my_font = pygame.font.SysFont(system_fonts[0], size=48, bold=True, italic=False)
+score = 0
 
 # window dimensions
 width = 600
@@ -24,8 +36,12 @@ speed = 10
 cur_pos = [300, 200]
 direction = "down"  # direction of snake traveling
 snake_body = [  # snake body pieces
-    [300, 200], [300, 180], [300, 160], [300, 140]
+    [300, 200], 
+    [300, 180], 
+    [300, 160], 
+    [300, 140]
 ]
+
 """game loop"""
 running = True
 while running:
@@ -45,6 +61,7 @@ while running:
                 direction = "left"
             if event.key == pygame.K_d and direction != "left":  # right direction
                 direction = "right"
+    
     """update our game state"""
     # update direction
     if direction == "up":
@@ -59,17 +76,17 @@ while running:
     # update bounds
     if cur_pos[0] < 0:  # x direction bounds
         cur_pos[0] = 0
-        running = False
+        # running = False
     if cur_pos[0] > width - 20:
         cur_pos[0] = width - 20
-        running = False
+        # running = False
 
     if cur_pos[1] < 0:  # y direction bounds
         cur_pos[1] = 0
-        running = False
+        # running = False
     if cur_pos[1] > height - 20:
         cur_pos[1] = height - 20
-        running = False
+        # running = False
 
     # snake movement
     snake_body.insert(0, list(cur_pos))
@@ -77,9 +94,14 @@ while running:
 
     # handle lose state
     # insert losing code here
+    
     """ draw to our screen """
     # clear screen
     screen.fill("white")
+
+    # draw text to screen
+    helper_functions.draw_text(f'Score: {score}', (20,20), "red", my_font, screen)
+    helper_functions.draw_text(f'Snake!', (300,20), "blue", my_font, screen)
 
     # draw snake
     for body in snake_body:
