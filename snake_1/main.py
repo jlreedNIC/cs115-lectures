@@ -5,7 +5,6 @@ import pygame
 from pygame.constants import KEYDOWN
 import helper_functions
 
-
 # ---
 # main game
 # ----
@@ -17,7 +16,6 @@ system_fonts = pygame.font.get_fonts()
 print(system_fonts)
 
 my_font = pygame.font.SysFont(system_fonts[0], size=48, bold=True, italic=False)
-score = 0
 
 # window dimensions
 width = 600
@@ -41,6 +39,11 @@ snake_body = [  # snake body pieces
     [300, 160], 
     [300, 140]
 ]
+score = 0        # to keep track of score
+
+# generate random fruit position
+fruit_pos = helper_functions.populate_fruit(min_y=100)
+add_body = False
 
 """game loop"""
 running = True
@@ -63,37 +66,33 @@ while running:
                 direction = "right"
     
     """update our game state"""
-    # update direction
-    if direction == "up":
-        cur_pos[1] -= 20
-    if direction == "down":
-        cur_pos[1] += 20
-    if direction == "left":
-        cur_pos[0] -= 20
-    if direction == "right":
-        cur_pos[0] += 20
+    # update current position
+    # this allows for continuous movement
+    # because we always update the current position
+    # check function in helper file
+    cur_pos = helper_functions.update_cur_pos(direction, cur_pos)
+    if cur_pos == False:
+        running = False
 
-    # update bounds
-    if cur_pos[0] < 0:  # x direction bounds
-        cur_pos[0] = 0
-        # running = False
-    if cur_pos[0] > width - 20:
-        cur_pos[0] = width - 20
-        # running = False
+    # check if our snake has collided with its own body
+    # this is done with Python functions
+    if cur_pos in snake_body:
+        print("You lose.")
+        running = False
 
-    if cur_pos[1] < 0:  # y direction bounds
-        cur_pos[1] = 0
-        # running = False
-    if cur_pos[1] > height - 20:
-        cur_pos[1] = height - 20
-        # running = False
-
+    # check if snake collided with fruit
+    if cur_pos == fruit_pos:
+        score += 10
+        fruit_pos = helper_functions.populate_fruit(min_y=100)
+        add_body = True
+        
     # snake movement
     snake_body.insert(0, list(cur_pos))
-    snake_body.pop()
-
-    # handle lose state
-    # insert losing code here
+    if add_body:
+        add_body = False
+    else:
+        snake_body.pop()
+   
     
     """ draw to our screen """
     # clear screen
@@ -103,11 +102,12 @@ while running:
     helper_functions.draw_text(f'Score: {score}', (20,20), "red", my_font, screen)
     helper_functions.draw_text(f'Snake!', (300,20), "blue", my_font, screen)
 
+    # draw fruit
+    helper_functions.draw_square(screen, "red", fruit_pos)
+    
     # draw snake
     for body in snake_body:
-        pygame.draw.rect(surface=screen,
-                         color="green",
-                         rect=pygame.Rect(body[0], body[1], 20, 20))
+        helper_functions.draw_square(screen, "green", body)
 
     # update screen
     pygame.display.flip()
