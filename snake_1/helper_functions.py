@@ -1,3 +1,8 @@
+# -----
+# Helper functions for PyGame Snake game
+# -----
+
+# only import specific functions needed
 from random import randint
 from pygame import draw, Rect
 
